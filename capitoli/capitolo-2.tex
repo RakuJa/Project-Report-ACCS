@@ -10,7 +10,7 @@
 %**************************************************************
 \section{How the handshake is structured}
 
-The handshake protocol is used to exchange a session key to encrypt and authenticate all the messages after the handshake. It guarantees perfect forward secrecy and usese nonces both client and server side to deny possible replays attack. The handshake is made of 3 steps that are summarized in the following figure: \ref{fig:handshake}.
+The handshake protocol is used to exchange a session key to encrypt and authenticate all the messages after the handshake. It guarantees perfect forward secrecy and usese nonces of 128 bits both client and server side to deny possible replays attack. The handshake is made of 3 steps that are summarized in the following figure: \ref{fig:handshake}.
 
 \begin{figure}[!h] 
     \centering 
@@ -26,7 +26,7 @@ The handshake protocol is used to exchange a session key to encrypt and authenti
 		\item checks if the username does not contain invalid characters, only alphanumeric and dot characters (.) strictly not in the first position are allowed. If the username is not valid connection is closed allerting the client;
 		\item checks if the username is registered, if not then the connection gets closed by sending an error message to the client;
 		\item choses a random number \(\alpha\) and uses it to calculate the public Diffie-Hellman key that we will call ``A'' as A = \(g^\alpha mod p \);
-		\item the server now sends his certificate, a random number and ``A''. It also signs, using the server private RSA key, the random number received from the client Nonce(c) and A together and sends the signature to the client.
+		\item the server now sends his certificate, a random number and ``A''. It also signs, using SHA256 with the server private RSA key, the random number received from the client Nonce(c) and A together and sends the signature to the client.
 	\end{itemize}
 	\item the client checks validity of certificate and signature and generates the shared session key:
 	\begin{itemize}
@@ -35,7 +35,7 @@ The handshake protocol is used to exchange a session key to encrypt and authenti
 		\item choses a random number \(\beta\) and uses it to calculate the public Diffie-Hellman key that we will call ``B'' as B = \(g^\beta mod p \);
 		\item generates shared secret Kab = \(g^{\alpha*B} mod p\);
 		\item generates shared key hashing Kab with SHA256 and truncating the result to 128 bits;
-		\item signs, using the client private RSA key, the random received Nonce(s) and ``B'';
+		\item signs, using SHA256 with the client private RSA key, the random received Nonce(s) and ``B'';
 		\item eliminates ``A'', ``B'', \(\alpha\);
 		\item sends the generated signature. 
 	\end{itemize}
@@ -49,6 +49,21 @@ The handshake protocol is used to exchange a session key to encrypt and authenti
 \end{enumerate}
 
 %**************************************************************
-\section{How is the session key used}
+\section{Session key}
+
+\subsection{How is the session key used}
+
+The session key is used to encrypt packets using Authenticated Encryption With Associated Data (AEAD) with AES-GCM. This uses the generated symmetric key and provides authentication and integrity. This aproach has been chosen based on the ease of implementation, the fact that it is less error prone and also faster. 
+
+\begin{figure}[!h] 
+    \centering 
+    \includegraphics[width=1\columnwidth]{authenticated_encryption.png} 
+    \caption{Authenticated Encryption message representation. In green authenticated field, in red authenticated and encrypted fields.}
+    \label{fig:authenticated_encryption}
+\end{figure}
+
+\subsection{Key length}
+
+As for key length it has been decided that the private key will be 3072 bits (384 bytes) long, while the symmetric key will be 128 bits. This decision aims at strengthening long term security with the long private key, and on the session key aims at the best tradeoff between security and overhead performance cost. 128 bits keys with the AES algorithm are the recommended length, have been deeply scrutinized and the only possible vulnerability comes with quantum computer attacks. With Grover's algorithm, a brute-force attack on a 128 bit key will result in roughly \(2^64\) operations to break it, which is doable but would require many resources and it won’t be possible in the near future.
 
 %**************************************************************
