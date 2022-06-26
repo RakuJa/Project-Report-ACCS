@@ -1,0 +1,72 @@
+% !TEX encoding = UTF-8
+% !TEX TS-program = pdflatex
+% !TEX root = ../tesi.tex
+
+%**************************************************************
+\chapter{Introduzione}
+\label{cap:introduzione}
+%**************************************************************
+
+%**************************************************************
+\section{Project goal}
+
+The students must implement a Client-Server application that resembles a Cloud Storage. Each user has a  ``dedicated storage'' on the server, and User A cannot access User B ``dedicated storage''. Users can Upload, Download, Rename, or Delete data to/from the Cloud Storage in a safe manner.
+\begin{itemize}
+	\item \textbf{Upload}: the user will upload a file found on the client machine to the server. The uploaded file size can be up to 4GB. The file will be saved with its original name, if this is not possible the file will not be uploaded;
+	\item \textbf{Download}: the user will download a file from the server to the client machine. The file will be saved with its original name, if this is not possible the file will not be downloaded; 
+	\item \textbf{Delete}: the user specifies a file on his ``dedicated storage'', the user will also be prompted with a choice to confirm the delete operation. The server deletes the file if it was found; 
+	\item \textbf{List}: the user asks to the server the list of the filenames that are available on his ``dedicated storage''. The client shows the result to screen;
+	\item \textbf{Rename}: the user specifies two filenames, the first one of the file that should be renamed and the second one the new filename desired. If the renaming operation is not possible, the filename is not changed;
+\end{itemize}
+
+Once connected to the service, the client can grafecully close the connection with the server.
+\newpage{}
+
+%**************************************************************
+\section{Assumptions \& Requisites}
+Users and server will work under some assumptions that will be described in detail here: \newline{}
+\textbf{Users}: 
+\begin{itemize}
+	\item they are pre-registered on the server;
+	\item they have already the CA certificate;
+	\item they have each a long-term RSA key-pair;
+	\item the long-term private key is password-protected.
+\end{itemize}
+\textbf{Server}:
+\begin{itemize}
+	\item it has its own certificate signed by the CA;
+	\item it knows the username of every registered user;
+	\item it knows the RSA public key of every user;
+	\item ``dedicated storage'' is already allocated.
+\end{itemize}
+When the client application starts, Server and Client must authenticate: \newline{}
+\begin{itemize}
+	\item server must authenticate with the public key certified by the certification authority;
+	\item client must authenticate with the public key, pre-shared with the server.
+\end{itemize}
+
+During authentication a symmetric session key must be negotiated: \newline{}
+\begin{itemize}
+	\item the negotiation must provide Perfect Forward Secrecy;
+	\item the entire session must be encrypted and authenticated;
+	\item the entire session must be protected against replay attacks.
+	
+\end{itemize}
+%**************************************************************
+
+\section{Technology stack}
+
+The teck stack will be listed in the Table \ref{tab:teck-stack}.
+\begin{longtable}{|p{0.2\textwidth}|p{0.8\textwidth}|}
+	\caption{Technology stack}
+	\label{Technology stack} \\
+	\hline
+	\textbf{Name} & \textbf{Description} \\
+	\hline
+	ciao & mamma \\
+	\hline
+	due & tre \\
+	\hline
+\end{longtable}%
+	
+
