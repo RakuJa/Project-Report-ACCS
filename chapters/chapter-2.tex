@@ -14,11 +14,11 @@ The handshake protocol is used to exchange a session key to encrypt and authenti
 
 \begin{figure}[!h] 
     \centering 
-    \includegraphics[width=1\columnwidth]{handshake.png} 
+    \includegraphics[width=1\columnwidth]{chapter-2/handshake.png} 
     \caption{Handshake.}
     \label{fig:handshake}
 \end{figure}
-
+\newpage{}
 \begin{enumerate}
 	\item client sends a random number also called nonce and the chosen username;
 	\item server checks validity of username and prepares the preliminary steps to generate a shared session key:
@@ -49,6 +49,7 @@ The handshake protocol is used to exchange a session key to encrypt and authenti
 \end{enumerate}
 
 %**************************************************************
+\newpage{}
 \section{Session key}
 
 \subsection{How is the session key used}
@@ -57,7 +58,7 @@ The session key is used to encrypt packets using Authenticated Encryption With A
 
 \begin{figure}[!h] 
     \centering 
-    \includegraphics[width=1\columnwidth]{authenticated_encryption.png} 
+    \includegraphics[width=1\columnwidth]{chapter-2/authenticated_encryption.png} 
     \caption{Authenticated Encryption message representation. In green authenticated field, in red authenticated and encrypted fields.}
     \label{fig:authenticated_encryption}
 \end{figure}

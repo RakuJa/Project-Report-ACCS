@@ -26,7 +26,7 @@
 \begin{filecontents*}{\jobname.xmpdata}
   \Title{Applied cryptography Cloud-Storage project report}
   \Author{Daniele Giachetto}
-  \Language{it-IT}
+  \Language{eng-ENG}
   \Subject{This document describes project specifications, design choices and format of all the exchanged messages, using sequence diagrams of every used communication protocol.}
   \Keywords{Applied cryptography\sep Openssl\sep Pisa}
 \end{filecontents*}
@@ -36,7 +36,6 @@
                twoside,                 % impagina per fronte-retro
                openright,               % inizio capitoli a destra
                english,                 
-               italian,                 
                ]{book}    
 
 %**************************************************************
@@ -59,7 +58,7 @@
 \usepackage[utf8]{inputenc}             % codifica di input; anche [latin1] va bene
                                         % NOTA BENE! va accordata con le preferenze dell'editor
 
-\usepackage[italian]{babel}    % per scrivere in italiano e in inglese;
+%\usepackage[italian]{babel}    % per scrivere in italiano e in inglese;
                                         % l'ultima lingua (l'italiano) risulta predefinita
 
 \usepackage{bookmark}                   % segnalibri
@@ -125,18 +124,18 @@
 % Materiale iniziale
 %**************************************************************
 \frontmatter
-\input{inizio-fine/frontespizio}
+\input{inizio-fine/frontispiece}
 % \input{inizio-fine/sommario}
-\input{inizio-fine/indici}
+\input{inizio-fine/index}
 \cleardoublepage
 
 %**************************************************************
 % Materiale principale
 %**************************************************************
 \mainmatter
-\input{capitoli/capitolo-1}             % Introduction
-\input{capitoli/capitolo-2}             % Handshake
-%\input{capitoli/capitolo-3}             % Strumenti e tecnologie
+\input{chapters/chapter-1}             % Introduction
+\input{chapters/chapter-2}             % Handshake
+\input{chapters/chapter-3}             % Messages
 %\input{capitoli/capitolo-4}             % Progettazione e sviluppo
 %\input{capitoli/capitolo-5}             % Verifica e validazione
 %\input{capitoli/capitolo-6}             % Conclusioni
@@ -146,7 +145,7 @@
 %**************************************************************
 % Materiale finale
 %**************************************************************
-\backmatter
-\printglossary[title={Glossario}]
-% \input{inizio-fine/bibliografia}
+%\backmatter
+%\printglossary[title={Glossario}]
+% \input{inizio-fine/bibliography}
 \end{document}
