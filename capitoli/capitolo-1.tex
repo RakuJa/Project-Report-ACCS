@@ -3,8 +3,8 @@
 % !TEX root = ../tesi.tex
 
 %**************************************************************
-\chapter{Introduzione}
-\label{cap:introduzione}
+\chapter{Introduction}
+\label{cap:introduction}
 %**************************************************************
 
 %**************************************************************
@@ -20,7 +20,6 @@ The students must implement a Client-Server application that resembles a Cloud S
 \end{itemize}
 
 Once connected to the service, the client can grafecully close the connection with the server.
-\newpage{}
 
 %**************************************************************
 \section{Assumptions \& Requisites}
@@ -59,13 +58,18 @@ During authentication a symmetric session key must be negotiated: \newline{}
 The teck stack will be listed in the Table \ref{tab:teck-stack}.
 \begin{longtable}{|p{0.2\textwidth}|p{0.8\textwidth}|}
 	\caption{Technology stack}
-	\label{Technology stack} \\
+	\label{Technology stack} 
+	\label{tab:teck-stack} \\
 	\hline
 	\textbf{Name} & \textbf{Description} \\
 	\hline
-	ciao & mamma \\
+	C++ & Programming language chosen, the alternatives were C or C++ and C++ with its backward compatibility and better type safety with the new operation (in constract with malloc). The code has been writter as to allow development in C changing as few things as possible. \\
 	\hline
-	due & tre \\
+	OpenSSL & Mandatory library used to secure, authenticate and guarantee integrity of the communications. \\
+	\hline
+	VS code & Free text editor used to write the C++ code. \\
+	\hline
+	Valgrind & Programming tool for memory debugging, memory leak detection and profiling. Used mainly to debug code and find memory leak. \\
 	\hline
 \end{longtable}%
 	
