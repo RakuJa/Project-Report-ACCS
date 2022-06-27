@@ -23,7 +23,7 @@ The handshake protocol is used to exchange a session key to encrypt and authenti
 	\item client sends a random number also called nonce and the chosen username;
 	\item server checks validity of username and prepares the preliminary steps to generate a shared session key:
 	\begin{itemize}
-		\item checks if the username does not contain invalid characters, only alphanumeric and dot characters (.) strictly not in the first position are allowed. If the username is not valid connection is closed allerting the client;
+		\item checks if the username does not contain invalid characters, only alphanumeric and dot characters (.) are allowed. The latter is not allowed strictly in the first position of the string. If the username is not valid connection is closed allerting the client;
 		\item checks if the username is registered, if not then the connection gets closed by sending an error message to the client;
 		\item choses a random number \(\alpha\) and uses it to calculate the public Diffie-Hellman key that we will call ``A'' as A = \(g^\alpha mod p \);
 		\item the server now sends his certificate, a random number and ``A''. It also signs, using SHA256 with the server private RSA key, the random number received from the client Nonce(c) and A together and sends the signature to the client.

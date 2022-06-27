@@ -136,7 +136,7 @@ In this section every operation and its sequence diagram will be discussed and e
 
 \subsection{Delete}
 \begin{enumerate}
-	\item client input a filename, validates the input and if valid checks for client confirmation of this destructive operation. The check is made client side because, if someone modified the client source code, then it would be as trivial to skip the client side check as it would to send an automatic ACK message after the server asks for confirmation. This means that a server side check will not provide benefit nor in security nor in speed while putting the check client side the security will be the same but sending useless packets will be avoided;
+	\item client inputs a filename, validates the input and if valid checks for client confirmation of this destructive operation. The check is made client side because, if someone modified the client source code, then it would be as trivial to skip the client side check as it would to send an automatic ACK message after the server asks for confirmation. This means that a server side check will not provide benefit nor in security nor in speed while putting the check client side the security will be the same but sending useless packets will be avoided;
 	\item client sends OperationPacket DELETE with payload containing filename;
 	\item server validates the request checking filename and if the file exists and delete file and sends DONE if valid, otherwise ABORT;
 \end{enumerate}
@@ -150,7 +150,7 @@ In this section every operation and its sequence diagram will be discussed and e
 
 \subsection{Rename}
 \begin{enumerate}
-	\item client input firstly the file to rename and after that the name that he wants to rename it to. Every step of the input is validated;
+	\item client first inputs the file to rename and after that the name that he wants to rename it to. Every step of the input is validated;
 	\item client sends OperationPacket RENAME containing the two filenames as payload, separated by ','. Ex: fileold.example,filenew.txt ;
 	\item server reads the OperationPacket and splits the received payload in two strings, old and new name. It validates the two, checks if the old filename exists in the remote folder and then renames it to the desired new name. If this was successful sends DONE, otherwise ABORT.
 \end{enumerate}
