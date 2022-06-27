@@ -10,7 +10,7 @@
 %**************************************************************
 \section{Structure of packets}
 
-There is one generic packet that will be exchanged during the client - server communication. It is made of: \newline{}
+There is one generic packet that will be exchanged during the client - server communication. We shall call it ``OperationPacket'' and it is made of: \newline{}
 \begin{itemize}
 	\item AAD (24 bytes)
 	\item IV (12 bytes)
@@ -78,6 +78,18 @@ An in depth description of every single content of the AAD is necessary:
 In this section every operation and its sequence diagram will be discussed and explained.
 
 \subsection{Upload}
+\begin{enumerate} 
+	\item client, after validating filename, file existance and size, sends OperationPacket with payload made of the filename and AAD made of message counter and: \newline{}
+	\begin{itemize}
+		\item operation ID = UPLOAD;
+		\item number of packets that will be sent to server;
+		\item payload length: the size of the filename.
+	\end{itemize}
+	\item server validates the request checking the filename and if the file does not exists already and sends ACK if valid, otherwise ABORT;
+	\item client starts sending in order but asynchronously data packets containing the content of the files;
+	\item server reads and validates every packets, checking if they are being received in the correct order. When the server finishes reading all the packets it sends a DONE.
+
+\end{enumerate}
 
 \begin{figure}[!h] 
     \centering 
@@ -86,7 +98,20 @@ In this section every operation and its sequence diagram will be discussed and e
     \label{fig:upload_operation}
 \end{figure}
 
+\newpage{}
+
 \subsection{Download}
+\begin{enumerate}
+	\item client, after validating filename and file existance, sends OperationPacket with payload made of the filename and AAD made of message counter and: \newline{}
+	\begin{itemize}
+		\item operation ID = DOWNLOAD;
+		\item payload length: the size of the filename.
+	\end{itemize}
+	\item server validates the request checking filename and if the file exists and sends ACK if valid, otherwise ABORT;
+	\item client sends ACK;
+	\item server starts sending in order but asynchronously data packets containing the content of the files;
+	\item client reads and validates every packets, checking if they are being received in the correct order. When the client finishes reading all the packets it sends a DONE.
+\end{enumerate}
 
 \begin{figure}[!h] 
     \centering 
@@ -94,9 +119,14 @@ In this section every operation and its sequence diagram will be discussed and e
     \caption{Download operation.}
     \label{fig:download_operation}
 \end{figure}
-
+\newpage{}
 \subsection{List}
-
+\begin{enumerate}
+	\item client sends OperationPacket LIST;
+	\item server sends OperationPacket DATA containing all the filenames found and validated by the server on the remote folder, separated by ','. Ex: file1,file2,file3 ;
+	\item client reads the OperationPacket and splits the received payload in strings, validates them and display them to console.
+	
+\end{enumerate}
 \begin{figure}[!h] 
     \centering 
     \includegraphics[width=1\columnwidth]{chapter-3/List.png} 
@@ -105,6 +135,11 @@ In this section every operation and its sequence diagram will be discussed and e
 \end{figure}
 
 \subsection{Delete}
+\begin{enumerate}
+	\item client input a filename, validates the input and if valid checks for client confirmation of this destructive operation. The check is made client side because, if someone modified the client source code, then it would be as trivial to skip the client side check as it would to send an automatic ACK message after the server asks for confirmation. This means that a server side check will not provide benefit nor in security and nor in speed while putting the check client side the security will be the same but sending useless packets will be avoided;
+	\item client sends OperationPacket DELETE with payload containing filename;
+	\item server validates the request checking filename and if the file exists and delete file and sends DONE if valid, otherwise ABORT;
+\end{enumerate}
 
 \begin{figure}[!h] 
     \centering 
@@ -114,6 +149,11 @@ In this section every operation and its sequence diagram will be discussed and e
 \end{figure}
 
 \subsection{Rename}
+\begin{enumerate}
+	\item client input firstly the file to rename and after that the name that he wants to rename it to. Every step of the input is validated;
+	\item client sends OperationPacket RENAME containing the two filenames as payload, separated by ','. Ex: fileold.example,filenew.txt ;
+	\item server reads the OperationPacket and splits the received payload in two strings, old and new name. It validates the two, checks if the old filename exists in the remote folder and then renames it to the desired new name. If this was successful sends DONE, otherwise ABORT.
+\end{enumerate}
 
 \begin{figure}[!h] 
     \centering 
@@ -121,8 +161,16 @@ In this section every operation and its sequence diagram will be discussed and e
     \caption{Rename operation.}
     \label{fig:rename_operation}
 \end{figure}
-
+\newpage{}
 \subsection{Logout}
+\begin{enumerate}
+	\item client sensd OperationPacket LOGOUT;
+	\item server answers with OperationPacket ACK;
+	\item client asks the user to confirm the operation;
+	\item if the operation was confirmed sends DONE to server and closes the connection, otherwise ABORT;
+	\item server reads the OperationPacket and if DONE it closes the connection on its part, otherwise it ignores the previous request and keeps the connection going.
+\end{enumerate}
+
 
 \begin{figure}[!h] 
     \centering 
