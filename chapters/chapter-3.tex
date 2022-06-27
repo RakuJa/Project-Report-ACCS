@@ -136,7 +136,7 @@ In this section every operation and its sequence diagram will be discussed and e
 
 \subsection{Delete}
 \begin{enumerate}
-	\item client input a filename, validates the input and if valid checks for client confirmation of this destructive operation. The check is made client side because, if someone modified the client source code, then it would be as trivial to skip the client side check as it would to send an automatic ACK message after the server asks for confirmation. This means that a server side check will not provide benefit nor in security and nor in speed while putting the check client side the security will be the same but sending useless packets will be avoided;
+	\item client input a filename, validates the input and if valid checks for client confirmation of this destructive operation. The check is made client side because, if someone modified the client source code, then it would be as trivial to skip the client side check as it would to send an automatic ACK message after the server asks for confirmation. This means that a server side check will not provide benefit nor in security nor in speed while putting the check client side the security will be the same but sending useless packets will be avoided;
 	\item client sends OperationPacket DELETE with payload containing filename;
 	\item server validates the request checking filename and if the file exists and delete file and sends DONE if valid, otherwise ABORT;
 \end{enumerate}
@@ -164,7 +164,7 @@ In this section every operation and its sequence diagram will be discussed and e
 \newpage{}
 \subsection{Logout}
 \begin{enumerate}
-	\item client sensd OperationPacket LOGOUT;
+	\item client sends OperationPacket LOGOUT;
 	\item server answers with OperationPacket ACK;
 	\item client asks the user to confirm the operation;
 	\item if the operation was confirmed sends DONE to server and closes the connection, otherwise ABORT;
